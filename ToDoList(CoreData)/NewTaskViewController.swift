@@ -84,7 +84,7 @@ class NewTaskViewController: UIViewController {
     
     @objc private func saveTask() {
 //        guard let task = taskTextField.text, !task.isEmpty else { return }
-//        StorageManager.shared.save(taskName: task) 
+//        StorageManager.shared.save(taskName: task)
 //        dismiss(animated: true)
     }
     

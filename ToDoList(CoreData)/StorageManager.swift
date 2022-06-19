@@ -66,4 +66,8 @@ class StorageManager {
             }
         }
     }
+    
+    deinit {
+        print("StorageManager has been dealocated")
+    }
 }

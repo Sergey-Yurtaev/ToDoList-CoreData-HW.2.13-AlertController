@@ -23,7 +23,7 @@ class TaskListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tasks = StorageManager.shared.fetchData()
-        tableView.reloadData()
+        tableView.reloadData() //- для нового экрана
         
     }
     
@@ -60,13 +60,17 @@ class TaskListViewController: UITableViewController {
     }
     
     @objc private func addTask() {
-        //        let newTaskVC = NewTaskViewController()
-        //        newTaskVC.modalPresentationStyle = .fullScreen
-        //        present(newTaskVC, animated: true)
+//        let newTaskVC = NewTaskViewController()
+//        newTaskVC.modalPresentationStyle = .fullScreen
+//        present(newTaskVC, animated: true)
         
-        //        showAlertSave(with: "New Task", and: "What do you want to do") // отдельный алерт на save
+//        showAlertSave(with: "New Task", and: "What do you want to do") // отдельный алерт на save
         
         showAlertSaveAndEdit()
+    }
+    
+    deinit {
+        print("TaskListViewController has been dealocated") // не выгружается
     }
 }
 
@@ -95,9 +99,9 @@ extension TaskListViewController {
         let task = tasks[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         
-//        showAlertEdit(task: task) { _ in // отдельный алерт на edit
-//            tableView.reloadRows(at: [indexPath], with: .automatic)
-//        }
+        //        showAlertEdit(task: task) { _ in // отдельный алерт на edit
+        //            tableView.reloadRows(at: [indexPath], with: .automatic)
+        //        }
         showAlertSaveAndEdit(task: task) {
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }

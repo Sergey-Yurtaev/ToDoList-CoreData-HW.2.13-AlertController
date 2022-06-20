@@ -60,10 +60,10 @@
 		4B49CDB1284A09100004B52A /* ToDoList(CoreData) */ = {
 			isa = PBXGroup;
 			children = (
-				4BE32B81284E02010029D1C5 /* AlertController.swift */,
-				4B49CDC9284A35F50004B52A /* NewTaskViewController.swift */,
-				4B49CDCB284BB9E70004B52A /* StorageManager.swift */,
 				4B49CDB6284A09100004B52A /* TaskListViewController.swift */,
+				4B49CDC9284A35F50004B52A /* NewTaskViewController.swift */,
+				4BE32B81284E02010029D1C5 /* AlertController.swift */,
+				4B49CDCB284BB9E70004B52A /* StorageManager.swift */,
 				4B49CDB2284A09100004B52A /* AppDelegate.swift */,
 				4B49CDBE284A09130004B52A /* Assets.xcassets */,
 				4B49CDC0284A09130004B52A /* LaunchScreen.storyboard */,

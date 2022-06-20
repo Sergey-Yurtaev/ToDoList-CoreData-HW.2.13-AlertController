@@ -17,15 +17,13 @@ class TaskListViewController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         setupNavigationBar()
-        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tasks = StorageManager.shared.fetchData()
-        tableView.reloadData() //- для нового экрана
-        
-    }
+//    override func viewWillAppear(_ animated: Bool) { //- для нового экрана
+//        super.viewWillAppear(animated)
+//        tasks = StorageManager.shared.fetchData()
+//        tableView.reloadData()
+//    }
     
     private func setupNavigationBar() {
         title = "Task List"
@@ -55,7 +53,6 @@ class TaskListViewController: UITableViewController {
         )
         
         navigationItem.leftBarButtonItem = editButtonItem
-        
         navigationController?.navigationBar.tintColor = .white
     }
     
@@ -98,12 +95,11 @@ extension TaskListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let task = tasks[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
-        
         //        showAlertEdit(task: task) { _ in // отдельный алерт на edit
         //            tableView.reloadRows(at: [indexPath], with: .automatic)
         //        }
         showAlertSaveAndEdit(task: task) {
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
     
@@ -121,53 +117,6 @@ extension TaskListViewController {
 // MARK: - AlertController
 extension TaskListViewController {
     
-    private func showAlertSave(with title: String, and massage: String) {
-        let alert = UIAlertController(title: title, message: massage, preferredStyle: .alert)
-        
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-            guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
-            
-            StorageManager.shared.save(taskName: task) { task in
-                self.tasks.append(task)
-                self.tableView.insertRows(
-                    at: [IndexPath(row: self.tasks.count - 1, section: 0)],
-                    with: .automatic
-                )
-            }
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
-        
-        alert.addTextField { textField in
-            textField.placeholder = "New Task"
-        }
-        
-        alert.addAction(cancelAction)
-        alert.addAction(saveAction)
-        
-        present(alert, animated: true)
-    }
-    
-    private func showAlertEdit(task: Task, completion: @escaping (String) -> Void) {
-        let alert = UIAlertController(title: "Update Task", message: "What do you want to do", preferredStyle: .alert)
-        
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-            guard let newTask = alert.textFields?.first?.text else { return }
-            StorageManager.shared.edit(task, newName: newTask)
-            completion(newTask)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
-        
-        alert.addTextField { textField in
-            textField.text = task.name
-        }
-        
-        alert.addAction(cancelAction)
-        alert.addAction(saveAction)
-        
-        present(alert, animated: true)
-    }
-    
     private func showAlertSaveAndEdit(task: Task? = nil, completion: (() -> Void)? = nil) {
         
         var title = "New Task"
@@ -180,7 +129,7 @@ extension TaskListViewController {
                 StorageManager.shared.edit(task, newName: newValue)
                 completion()
             } else {
-                StorageManager.shared.save(taskName: newValue) { task in
+                StorageManager.shared.save(taskName: newValue) { [unowned self] task in
                     self.tasks.append(task)
                     self.tableView.insertRows(
                         at: [IndexPath(row: self.tasks.count - 1, section: 0)],
@@ -192,3 +141,52 @@ extension TaskListViewController {
         present(alert, animated: true)
     }
 }
+
+//private func showAlertSave(with title: String, and massage: String) {
+//    let alert = UIAlertController(title: title, message: massage, preferredStyle: .alert)
+//
+//    let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+//        guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
+//
+//        StorageManager.shared.save(taskName: task) { task in
+//            self.tasks.append(task)
+//            self.tableView.insertRows(
+//                at: [IndexPath(row: self.tasks.count - 1, section: 0)],
+//                with: .automatic
+//            )
+//        }
+//    }
+//    let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+//
+//    alert.addTextField { textField in
+//        textField.placeholder = "New Task"
+//    }
+//
+//    alert.addAction(cancelAction)
+//    alert.addAction(saveAction)
+//
+//    present(alert, animated: true)
+//}
+    
+//    private func showAlertEdit(task: Task, completion: @escaping (String) -> Void) {
+//        let alert = UIAlertController(title: "Update Task", message: "What do you want to do", preferredStyle: .alert)
+//
+//        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+//            guard let newTask = alert.textFields?.first?.text else { return }
+//            StorageManager.shared.edit(task, newName: newTask)
+//            completion(newTask)
+//        }
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+//
+//        alert.addTextField { textField in
+//            textField.text = task.name
+//        }
+//
+//        alert.addAction(cancelAction)
+//        alert.addAction(saveAction)
+//
+//        present(alert, animated: true)
+//    }
+    
+
